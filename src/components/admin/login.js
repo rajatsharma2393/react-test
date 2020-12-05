@@ -93,7 +93,7 @@ class AdminLogin extends Component {
                 </Typography>
                     <br />
                     <Typography component="h1" variant="h5">
-                        Admin Details
+                        Admin Login
                     </Typography>
                     <div>
                         <form noValidate onSubmit={this.handleSubmit}>

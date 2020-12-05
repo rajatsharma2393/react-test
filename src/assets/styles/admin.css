@@ -1,0 +1,17 @@
+.admin .registerations-table {
+    width:50%;
+    margin:5% auto;
+    text-align:center;
+}
+
+.admin .registerations-table thead th{
+    font-weight:bold;
+}
+
+.admin .registerations-table > *{
+    margin-top:2%;
+}
+
+.registerations-table .table-div > div:nth-child(2) {
+    max-height:400px;
+}
