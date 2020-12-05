@@ -32,7 +32,6 @@ export default class VisitorRegistration extends Component {
 
     valueOnChange = ({ target }) => {
         let { name, value } = target;
-        console.log(name + "  " + value);
         let errors = this.state.errors;
         errors[name] = "";
         this.setState({
@@ -89,7 +88,7 @@ export default class VisitorRegistration extends Component {
                     >
                         Admin</Button>
                 </div>
-                <Container component="div" className="visitorDetails" maxWidth="xs">
+                <Container component="div" className="visitorDetails main-content" maxWidth="xs">
                     <Typography component="h1" variant="h4">
                         Welcome to Challa-ahoy
                 </Typography>
