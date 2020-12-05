@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom';
+import {Redirect} from "react-router";
 
 class AdminHome extends Component {
     constructor(props) {
@@ -17,7 +18,9 @@ class AdminHome extends Component {
     }
 
     render() {
-        console.log(this.props.history);
+        if(!this.props.checkAdminLogin()) {
+            return <Redirect to="/admin-login" />
+        }
         return (
             <div>
                 kjdsnxc

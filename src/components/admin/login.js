@@ -7,6 +7,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import "./../../assets/styles/login.css"
 import { withRouter } from 'react-router-dom';
+import axios from "axios";
+import {LOGIN_API} from "./../../common/constants"
+import {Redirect} from "react-router";
 
 class AdminLogin extends Component {
     constructor(props) {
@@ -28,6 +31,10 @@ class AdminLogin extends Component {
         })
     }
 
+    handleLogin = async(data) => {
+        
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         let errors = {};
@@ -46,8 +53,28 @@ class AdminLogin extends Component {
             })
             return;
         }
+        axios.post(LOGIN_API,{username,password}).then(res=>{
+            if(res.status!=200) {
+                let {errors} = res.data.errors;
+                this.setState({
+                    errors
+                })
+            } else {
+                localStorage.setItem("user-token",res.data.token);
+                this.props.history.replace("admin");
+            }
+        })
+        this.setState({
+             username: "",
+            password: "",
+            errors: {}
+        })
+        
     }
     render() {
+        if(this.props.checkAdminLogin()) {
+            return <Redirect to="/admin" />
+        }
         return (
             <div className="admin">
                 <div className="back-btn">
@@ -92,6 +119,7 @@ class AdminLogin extends Component {
                                         label="Password"
                                         name="password"
                                         onChange={this.valueOnChange}
+                                        value={this.state.password}
                                     />
                                     {this.state.errors.password && (<span className="error">{this.state.errors.password}</span>)}
                                 </Grid>

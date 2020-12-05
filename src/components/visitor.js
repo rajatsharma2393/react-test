@@ -121,6 +121,7 @@ export default class VisitorRegistration extends Component {
                                         fullWidth
                                         label="Last Name"
                                         name="lastName"
+                                        value={this.state.lastName}
                                         onChange={this.valueOnChange}
                                     />
                                     {this.state.errors.lastName && (<span className="error">{this.state.errors.lastName}</span>)}
@@ -132,6 +133,7 @@ export default class VisitorRegistration extends Component {
                                         fullWidth
                                         label="Email Address"
                                         name="email"
+                                        value={this.state.email}
                                         onChange={this.valueOnChange}
                                     />
                                     {this.state.errors.email && (<span className="error">{this.state.errors.email}</span>)}
@@ -144,6 +146,7 @@ export default class VisitorRegistration extends Component {
                                         name="phoneNo"
                                         label="Phone Number"
                                         type="number"
+                                        value={this.state.phoneNo}
                                         onChange={this.valueOnChange}
                                     />
                                     {this.state.errors.phoneNo && (<span className="error">{this.state.errors.phoneNo}</span>)}
@@ -157,6 +160,7 @@ export default class VisitorRegistration extends Component {
                                         name="visitDate"
                                         label="Date"
                                         type="date"
+                                        value={this.state.visitDate}
                                         onChange={this.valueOnChange}
                                     />
                                     {this.state.errors.visitDate && (<span className="error">{this.state.errors.visitDate}</span>)}
@@ -170,6 +174,7 @@ export default class VisitorRegistration extends Component {
                                         name="visitTime"
                                         label="Time"
                                         type="time"
+                                        value={this.state.time}
                                         onChange={this.valueOnChange}
                                     />
                                     {this.state.errors.visitTime && (<span className="error">{this.state.errors.visitTime}</span>)}
