@@ -12,6 +12,20 @@
     margin-top:2%;
 }
 
-.registerations-table .table-div > div:nth-child(2) {
-    max-height:400px;
+.registerations-table .table-div > div {
+    max-height:600px;
+}
+
+.registerations-table .export-btn {
+    
+    width: 115px;
+    height: 25px;
+    background: #4E9CAF;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    line-height: 25px;
+    text-decoration: none;
 }
