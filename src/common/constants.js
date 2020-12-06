@@ -1,5 +1,5 @@
-const LOGIN_API = "http://demo6090831.mockable.io/login";
-const  DATA_API = "http://demo2236059.mockable.io/registerations";
+const LOGIN_API = "http://localhost:8080/admin";
+const DATA_API = "http://localhost:8080/registeration";
 export {
     LOGIN_API,
     DATA_API

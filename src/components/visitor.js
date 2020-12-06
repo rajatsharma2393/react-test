@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import moment from 'moment'
+import axios from "axios";
+import { DATA_API } from "./../common/constants"
 import "./../assets/styles/visitorDetails.css"
 
 export default class VisitorRegistration extends Component {
@@ -20,7 +16,7 @@ export default class VisitorRegistration extends Component {
             firstName: "",
             lastName: "",
             email: "",
-            phoneNo: "",
+            phoneNumber: "",
             visitDate: "",
             visitTime: "",
             errors: {}
@@ -46,7 +42,7 @@ export default class VisitorRegistration extends Component {
         let { firstName,
             lastName,
             email,
-            phoneNo,
+            phoneNumber,
             visitDate,
             visitTime } = this.state;
 
@@ -59,8 +55,8 @@ export default class VisitorRegistration extends Component {
         if (!email) {
             errors.email = "Field cant be empty";
         }
-        if (!phoneNo) {
-            errors.phoneNo = "Field cant be empty";
+        if (!phoneNumber) {
+            errors.phoneNumber = "Field cant be empty";
         }
         if (!visitDate) {
             errors.visitDate = "Field cant be empty";
@@ -74,6 +70,24 @@ export default class VisitorRegistration extends Component {
             })
             return;
         }
+
+        const dateTime = moment(`${visitDate} ${visitTime}`, 'YYYY-MM-DD HH:mm').format();
+        axios.post(DATA_API, {
+            firstName,
+            lastName,
+            email,
+            phoneNumber,
+            date: dateTime
+        });
+        this.setState({
+            firstName: "",
+            lastName: "",
+            email: "",
+            phoneNumber: "",
+            visitDate: "",
+            visitTime: "",
+            errors: {}
+        })
     }
     render() {
         return (
@@ -143,13 +157,13 @@ export default class VisitorRegistration extends Component {
                                         variant="outlined"
                                         required
                                         fullWidth
-                                        name="phoneNo"
+                                        name="phoneNumber"
                                         label="Phone Number"
-                                        type="number"
-                                        value={this.state.phoneNo}
+                                        type="text"
+                                        value={this.state.phoneNumber}
                                         onChange={this.valueOnChange}
                                     />
-                                    {this.state.errors.phoneNo && (<span className="error">{this.state.errors.phoneNo}</span>)}
+                                    {this.state.errors.phoneNumber && (<span className="error">{this.state.errors.phoneNumber}</span>)}
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -174,7 +188,7 @@ export default class VisitorRegistration extends Component {
                                         name="visitTime"
                                         label="Time"
                                         type="time"
-                                        value={this.state.time}
+                                        value={this.state.visitTime}
                                         onChange={this.valueOnChange}
                                     />
                                     {this.state.errors.visitTime && (<span className="error">{this.state.errors.visitTime}</span>)}

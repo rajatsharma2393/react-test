@@ -1,69 +1,42 @@
 import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom';
-import { Redirect } from "react-router";
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { CSVLink, CSVDownload } from "react-csv";
-
 import axios from "axios";
-import { DATA_API } from "./../../common/constants"
-import "./../../assets/styles/admin.css"
+import { DATA_API, LOGIN_API } from "./../../common/constants"
+import RegisterationDetails from "./details";
+import AdminLogin from "./login";
 
-
-class AdminHome extends Component {
+export default class AdminHome extends Component {
 
     constructor(props) {
         super(props);
         this.headings = ["First Name", "Last Name", "Email", "Phone No.", "Date", "Time"]
         this.state = {
             registerations: [],
-            isLoading: true
+            loggedIn: true,
+            token: null,
+            isLoading: true,
+            error: ""
         }
 
     }
 
-    getRegisterationContent = () => {
-        return (
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            {this.headings.map(heading => {
-                                return (<TableCell align="center">{heading}</TableCell>);
-                            })}
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {this.state.registerations.map((row) => (
-                            <TableRow key={row.firstName + row.lastName + row.visitDate + row.visitTime}>
-                                <TableCell align="center">
-                                    {row.firstName}
-                                </TableCell>
-                                <TableCell align="center">{row.lastName}</TableCell>
-                                <TableCell align="center">{row.email}</TableCell>
-                                <TableCell align="center">{row.phoneNo}</TableCell>
-                                <TableCell align="center">{row.visitDate}</TableCell>
-                                <TableCell align="center">{row.visitTime}</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-        )
-    }
-
-    componentDidMount() {
-        axios.get(DATA_API).then(res => {
+    getRegisterations = () => {
+        this.setState({
+            isLoading: true
+        })
+        axios.get(DATA_API, { headers: { Authorization: "Bearer " + localStorage.getItem("user-token") } }).then(res => {
             let registerations = [];
+
             if (res.status === 200) {
                 registerations = res.data.registerations;
+            } else if (res.status === 401) {
+                localStorage.removeItem("user-token");
+                this.setState({
+                    isLoading: false,
+                    loggedIn: false
+
+                })
+                return;
             }
             this.setState({
                 registerations,
@@ -72,19 +45,53 @@ class AdminHome extends Component {
         })
     }
 
-    getCsvData = () => {
-        let data = [];
-        console.log(this.state.registerations);
-        this.state.registerations.forEach((reg) => {
-            data.push(Object.values(reg));
-        });
-        return [this.headings, ...data];
+    handleLogin = (username, password) => {
+        this.setState({
+            isLoading: true
+        })
+        axios.post(LOGIN_API, { username, password }).then(res => {
+            if (res.status !== 200) {
+                let { errors } = res.data.errors;
+                this.setState({
+                    errors
+                })
+            } else {
+                if (res.data && res.data.success) {
+                    this.setState({
+                        isLoading: false,
+                        loggedIn: true
+                    })
+                    localStorage.setItem("user-token", res.data.token);
+                    this.getRegisterations();
+                } else {
+                    this.setState({
+                        isLoading: false,
+                        loggedIn: false,
+                        error: "Invalid Credentials"
+                    })
+                }
+            }
+        }).catch(e => {
+            this.setState({
+                isLoading: false,
+                loggedIn: false
+            })
+        })
     }
 
-    render() {
-        if (!this.props.checkAdminLogin()) {
-            return <Redirect to="/admin-login" />
+    componentDidMount() {
+        let token = localStorage.getItem("user-token");
+        if (!token) {
+            this.setState({
+                loggedIn: false,
+                isLoading: false
+            })
+            return;
         }
+        this.getRegisterations();
+    }
+    render() {
+
         return (
             <div className="admin">
                 <div className="back-btn">
@@ -97,24 +104,10 @@ class AdminHome extends Component {
                     >
                         {"< Go back"}</Button>
                 </div>
-                <div className="registerations-table">
-                    <Typography component="h1" variant="h4">
-                        Admin Challa-ahoy
-                </Typography>
-                    <Typography component="h1" variant="h5">
-                        Registeration Details
-                    </Typography>
-                    <div className="table-div">
-                        {this.getRegisterationContent()}
-                    </div>
-                    <br />
-                    {!this.state.isLoading && <CSVLink data={this.getCsvData()}
-                        filename={"my-file.csv"}
-                        className="export-btn">Export as CSV</CSVLink>}
-                </div>
-
+                {this.state.loggedIn ?
+                    <RegisterationDetails isLoading={this.state.isLoading} registerations={this.state.registerations} /> :
+                    <AdminLogin error={this.state.error} isLoading={this.state.isLoading} handleLogin={this.handleLogin} />}
             </div>
         )
     }
 }
-export default withRouter(AdminHome);
