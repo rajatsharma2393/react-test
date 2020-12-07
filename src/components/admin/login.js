@@ -20,6 +20,7 @@ export default class AdminLogin extends Component {
         }
     }
 
+    // Input fields changed
     valueOnChange = ({ target }) => {
         let { name, value } = target;
         let errors = this.state.errors;
@@ -29,9 +30,6 @@ export default class AdminLogin extends Component {
             errors
         })
     }
-
-
-
 
 
     handleSubmit = (e) => {
@@ -45,12 +43,14 @@ export default class AdminLogin extends Component {
         if (!password) {
             errors.password = "Field cant be empty";
         }
+        // If errors present, show those
         if (Object.keys(errors).length) {
             this.setState({
                 errors
             })
             return;
         }
+        // No errors, call backend API
         this.props.handleLogin(username, password);
         this.setState({
             username: "",

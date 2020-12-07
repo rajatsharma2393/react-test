@@ -20,6 +20,7 @@ export default class RegisterationDetails extends Component {
 
     }
 
+    // Formatted date and time to show in table
     getDateTime = (date) => {
         let index = date.indexOf("T");
         let dt = date.substring(0, index);
@@ -36,6 +37,7 @@ export default class RegisterationDetails extends Component {
         return [dt, time];
     }
 
+    // TAble view of all the registeration content
     getRegisterationContent = () => {
         return (
             <TableContainer component={Paper}>

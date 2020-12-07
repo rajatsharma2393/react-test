@@ -20,6 +20,7 @@ export default class AdminHome extends Component {
 
     }
 
+    // Get all registerations data from backend
     getRegisterations = () => {
         this.setState({
             isLoading: true
@@ -30,6 +31,7 @@ export default class AdminHome extends Component {
             if (res.status === 200) {
                 registerations = res.data.registerations;
             } else if (res.status === 401) {
+                // Unauthorised, meaning our token is invalid, remove it and again login
                 localStorage.removeItem("user-token");
                 this.setState({
                     isLoading: false,
@@ -45,10 +47,12 @@ export default class AdminHome extends Component {
         })
     }
 
+    // Function that will be passed to Login component
     handleLogin = (username, password) => {
         this.setState({
             isLoading: true
         })
+        // Call backend api
         axios.post(LOGIN_API, { username, password }).then(res => {
             if (res.status !== 200) {
                 let { errors } = res.data.errors;
@@ -80,7 +84,9 @@ export default class AdminHome extends Component {
     }
 
     componentDidMount() {
+        // Check if user token is present in localStorage
         let token = localStorage.getItem("user-token");
+        // Token isnt present
         if (!token) {
             this.setState({
                 loggedIn: false,
@@ -104,6 +110,7 @@ export default class AdminHome extends Component {
                     >
                         {"<- Back"}</Button>
                 </div>
+                {/* Display component based on if admin is logged In */}
                 {this.state.loggedIn ?
                     <RegisterationDetails isLoading={this.state.isLoading} registerations={this.state.registerations} /> :
                     <AdminLogin error={this.state.error} isLoading={this.state.isLoading} handleLogin={this.handleLogin} />}

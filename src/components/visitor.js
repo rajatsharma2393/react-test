@@ -28,6 +28,7 @@ export default class VisitorRegistration extends Component {
         this.props.history.push("/admin");
     }
 
+    // Input fields changed
     valueOnChange = ({ target }) => {
         let { name, value } = target;
         let errors = this.state.errors;
@@ -66,6 +67,8 @@ export default class VisitorRegistration extends Component {
         if (!visitTime) {
             errors.visitTime = "Field cant be empty";
         }
+
+        // If errors present
         if (Object.keys(errors).length) {
             this.setState({
                 errors
@@ -73,7 +76,10 @@ export default class VisitorRegistration extends Component {
             return;
         }
 
+        // Backend request date time formated date
         const dateTime = moment(`${visitDate} ${visitTime}`, 'YYYY-MM-DD HH:mm').format();
+
+        // Call backend api to store this registeration
         axios.post(DATA_API, {
             firstName,
             lastName,
@@ -90,6 +96,7 @@ export default class VisitorRegistration extends Component {
             visitTime: "",
             errors: {}
         })
+        // Show success toast
         toast.success(
             "Registeration Successful",
             {
@@ -120,8 +127,6 @@ export default class VisitorRegistration extends Component {
                         Visitor Details
                     </Typography>
                     <div>
-
-
                         <form noValidate onSubmit={this.handleSubmit} data-testid="registeration-form">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
