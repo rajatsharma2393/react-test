@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.2",
-    "@testing-library/jest-dom": "^5.11.6",
-    "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.3.0",
     "axios": "^0.21.0",
     "jwt-decode": "^3.1.2",
@@ -46,6 +44,9 @@
     ]
   },
   "devDependencies": {
-    "nodemon": "^2.0.6"
+    "@testing-library/jest-dom": "^5.11.6",
+    "@testing-library/react": "^11.2.2",
+    "nodemon": "^2.0.6",
+    "react-test-render": "^1.1.2"
   }
 }

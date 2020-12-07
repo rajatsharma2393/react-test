@@ -122,7 +122,7 @@ export default class VisitorRegistration extends Component {
                     <div>
 
 
-                        <form noValidate onSubmit={this.handleSubmit}>
+                        <form noValidate onSubmit={this.handleSubmit} data-testid="registeration-form">
                             <Grid container spacing={2}>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -131,11 +131,14 @@ export default class VisitorRegistration extends Component {
                                         required
                                         fullWidth
                                         label="First Name"
+                                        inputProps={{ "data-testid": "firstName-input" }}
                                         autoFocus
                                         value={this.state.firstName}
                                         onChange={this.valueOnChange}
                                     />
-                                    {this.state.errors.firstName && (<span className="error">{this.state.errors.firstName}</span>)}
+                                    {this.state.errors.firstName && (
+                                        <span className="error" data-testid="firstName-error">
+                                            {this.state.errors.firstName}</span>)}
                                 </Grid>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
@@ -144,6 +147,7 @@ export default class VisitorRegistration extends Component {
                                         fullWidth
                                         label="Last Name"
                                         name="lastName"
+                                        inputProps={{ "data-testid": "lastName-input" }}
                                         value={this.state.lastName}
                                         onChange={this.valueOnChange}
                                     />
@@ -156,6 +160,7 @@ export default class VisitorRegistration extends Component {
                                         fullWidth
                                         label="Email Address"
                                         name="email"
+                                        inputProps={{ "data-testid": "email-input" }}
                                         value={this.state.email}
                                         onChange={this.valueOnChange}
                                     />
@@ -169,6 +174,7 @@ export default class VisitorRegistration extends Component {
                                         name="phoneNumber"
                                         label="Phone Number"
                                         type="text"
+                                        inputProps={{ "data-testid": "phoneNumber-input" }}
                                         value={this.state.phoneNumber}
                                         onChange={this.valueOnChange}
                                     />
@@ -183,6 +189,7 @@ export default class VisitorRegistration extends Component {
                                         name="visitDate"
                                         label="Date"
                                         type="date"
+                                        inputProps={{ "data-testid": "visitDate-input" }}
                                         value={this.state.visitDate}
                                         onChange={this.valueOnChange}
                                     />
@@ -197,6 +204,7 @@ export default class VisitorRegistration extends Component {
                                         name="visitTime"
                                         label="Time"
                                         type="time"
+                                        inputProps={{ "data-testid": "visitTime-input" }}
                                         value={this.state.visitTime}
                                         onChange={this.valueOnChange}
                                     />
@@ -205,6 +213,7 @@ export default class VisitorRegistration extends Component {
                             </Grid>
                             <Button
                                 type="submit"
+                                data-testid="submit-btn"
                                 fullWidth
                                 variant="contained"
                                 color="secondary"

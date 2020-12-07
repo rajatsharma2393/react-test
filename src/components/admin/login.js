@@ -39,7 +39,6 @@ export default class AdminLogin extends Component {
         let errors = {};
         let { username,
             password } = this.state;
-
         if (!username) {
             errors.username = "Field cant be empty";
         }
@@ -72,7 +71,7 @@ export default class AdminLogin extends Component {
                     Admin Login
                     </Typography>
                 <div>
-                    <form noValidate onSubmit={this.handleSubmit}>
+                    <form noValidate onSubmit={this.handleSubmit} data-testid="login-form">
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
@@ -81,11 +80,14 @@ export default class AdminLogin extends Component {
                                     required
                                     fullWidth
                                     label="Username"
+                                    inputProps={{ "data-testid": "username-input" }}
                                     autoFocus
                                     value={this.state.username}
                                     onChange={this.valueOnChange}
                                 />
-                                {this.state.errors.username && (<span className="error">{this.state.errors.username}</span>)}
+                                {this.state.errors.username && (
+                                    <span className="error" data-testid="username-error">
+                                        {this.state.errors.username}</span>)}
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
@@ -95,12 +97,18 @@ export default class AdminLogin extends Component {
                                     label="Password"
                                     name="password"
                                     type="password"
+                                    inputProps={{ "data-testid": "password-input" }}
                                     onChange={this.valueOnChange}
                                     value={this.state.password}
                                 />
-                                {this.state.errors.password && (<span className="error">{this.state.errors.password}</span>)}
+                                {this.state.errors.password && (
+                                    <span className="error" data-testid="password-error">
+                                        {this.state.errors.password}</span>)}
 
-                                {this.props.error && !this.state.username && !this.state.password && (<span className="error">{this.props.error}</span>)}
+                                {this.props.error && !this.state.username && !this.state.password && (
+                                    <span className="error" data-testid="parent-error">{this.props.error}
+                                    </span>)
+                                }
 
 
                             </Grid>
@@ -110,6 +118,7 @@ export default class AdminLogin extends Component {
 
                         <Button
                             type="submit"
+                            data-testid="login-btn"
                             fullWidth
                             variant="contained"
                             color="secondary"
