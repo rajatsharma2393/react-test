@@ -3,3 +3,8 @@
     left:10%;
     top:4%;
 }
+
+.admin .loader-div{
+    text-align: center;
+    margin-top:10px;
+}

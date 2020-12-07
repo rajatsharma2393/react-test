@@ -102,7 +102,7 @@ export default class AdminHome extends Component {
                         color="primary"
 
                     >
-                        {"< Go back"}</Button>
+                        {"<- Back"}</Button>
                 </div>
                 {this.state.loggedIn ?
                     <RegisterationDetails isLoading={this.state.isLoading} registerations={this.state.registerations} /> :

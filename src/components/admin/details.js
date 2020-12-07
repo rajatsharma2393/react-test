@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { CSVLink } from "react-csv";
-
+import Loader from 'react-loader-spinner'
 import "./../../assets/styles/admin.css"
 
 
@@ -93,9 +93,20 @@ export default class RegisterationDetails extends Component {
                     {this.getRegisterationContent()}
                 </div>
                 <br />
+                {this.props.isLoading && (
+                    <div className="loader-div">
+                        <Loader
+                            type="Puff"
+                            color="#00BFFF"
+                            height={30}
+                            width={30}
+
+                        /></div>
+                )}
                 <CSVLink data={this.getCsvData()}
                     filename={"registerations.csv"}
-                    className="export-btn">Export as CSV</CSVLink>
+                    className="export-btn"
+                    disabled={this.props.isLoading}>Export as CSV</CSVLink>
             </div>
 
         )

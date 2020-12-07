@@ -8,6 +8,8 @@ import moment from 'moment'
 import axios from "axios";
 import { DATA_API } from "./../common/constants"
 import "./../assets/styles/visitorDetails.css"
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class VisitorRegistration extends Component {
     constructor(props) {
@@ -88,6 +90,13 @@ export default class VisitorRegistration extends Component {
             visitTime: "",
             errors: {}
         })
+        toast.success(
+            "Registeration Successful",
+            {
+                position: toast.POSITION.TOP_CENTER,
+                autoClose: 1000
+            }
+        );
     }
     render() {
         return (
@@ -198,7 +207,7 @@ export default class VisitorRegistration extends Component {
                                 type="submit"
                                 fullWidth
                                 variant="contained"
-                                color="primary"
+                                color="secondary"
 
                             >
                                 Submit
@@ -208,6 +217,7 @@ export default class VisitorRegistration extends Component {
                     </div>
 
                 </Container>
+                <ToastContainer />
             </div>
         );
     }

@@ -5,6 +5,8 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import "./../../assets/styles/login.css"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import Loader from 'react-loader-spinner'
 
 export default class AdminLogin extends Component {
     constructor(props) {
@@ -92,6 +94,7 @@ export default class AdminLogin extends Component {
                                     fullWidth
                                     label="Password"
                                     name="password"
+                                    type="password"
                                     onChange={this.valueOnChange}
                                     value={this.state.password}
                                 />
@@ -103,20 +106,36 @@ export default class AdminLogin extends Component {
                             </Grid>
 
                         </Grid>
+
+
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
-                            color="primary"
-
+                            color="secondary"
+                            disabled={this.props.isLoading}
                         >
                             Login
                         </Button>
 
                     </form>
+                    {this.props.isLoading && (
+                        <div className="loader-div">
+                            <Loader
+                                type="Puff"
+                                color="#00BFFF"
+                                height={30}
+                                width={30}
+
+                            /></div>
+                    )}
+
                 </div>
 
             </Container>
         );
     }
 }
+
+// admin.username = Admin@01
+// admin.password = Password@10
